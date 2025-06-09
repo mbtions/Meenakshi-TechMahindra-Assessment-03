@@ -71,3 +71,8 @@ _Sample Workflows_
 2. Clicks "Add Workout" → Fills title, category, duration, date → Clicks Save.
 3. (Optional) Navigates to BMI Page → Enters weight and height → BMI is shown.
 4. (Optional) Clicks “Summary” → Sees workout stats.
+
+
+_App Screenshots_
+
+For screenshots refer to the file [fitnesstrackerapp/Readme.md](./fitnesstrackerapp/README.md)
