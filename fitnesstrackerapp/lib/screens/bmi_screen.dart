@@ -21,10 +21,14 @@ class BmiScreenState extends State<BmiScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(controller: heightController),
-            TextField(controller: weightController),
-            // Text("Height"),
-            // Text("Weight"),
+            TextField(
+              controller: heightController,
+              keyboardType: TextInputType.number,
+            ),
+            TextField(
+              controller: weightController,
+              keyboardType: TextInputType.number,
+            ),
           ],
         ),
       ),
