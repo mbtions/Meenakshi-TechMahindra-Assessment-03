@@ -2,6 +2,7 @@ import 'package:fitnesstrackerapp/model/workout.dart';
 import 'package:fitnesstrackerapp/screens/add_workout_screen.dart';
 import 'package:fitnesstrackerapp/screens/bmi_screen.dart';
 import 'package:fitnesstrackerapp/screens/summary_screen.dart';
+import 'package:fitnesstrackerapp/widgets/workout_list.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -67,72 +68,6 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildWorkoutList() {
-    return ListView.builder(
-      itemCount: registeredWorkouts.length,
-      itemBuilder: (context, index) => Dismissible(
-        key: ValueKey(registeredWorkouts[index]),
-        background: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.delete, color: Colors.white),
-              SizedBox(width: 8),
-              Text(
-                'DELETE',
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-            ],
-          ),
-        ),
-        onDismissed: (_) => _removeWorkout(registeredWorkouts[index], index),
-        child: Card(
-          elevation: 3,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          color: Colors.blue.shade200,
-          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Row(
-              children: [
-                registeredWorkouts[index].getCategoryIcon(),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        registeredWorkouts[index].title,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "Duration: ${registeredWorkouts[index].duration} min",
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  registeredWorkouts[index].formattedDate(),
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final pages = [
@@ -140,14 +75,18 @@ class HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: const Text('Fitness Tracker'),
           centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: _onAddNewWorkoutPress,
-              icon: const CircleAvatar(child: Icon(Icons.add, size: 30)),
-            ),
-          ],
+          backgroundColor: Color(0xFFB76D68),
         ),
-        body: _buildWorkoutList(),
+        body: WorkoutList(
+          workouts: registeredWorkouts,
+          onRemoveWorkout: _removeWorkout,
+        ),
+        backgroundColor: const Color(0xFF121420),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _onAddNewWorkoutPress,
+          backgroundColor: const Color(0xFFB76D68),
+          child: const Icon(Icons.add),
+        ),
       ),
       BmiScreen(),
       SummaryScreen(),
@@ -156,6 +95,9 @@ class HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: pages[_selectedIndex],
       bottomNavigationBar: NavigationBar(
+        // backgroundColor: const Color(0xFF121420),
+        backgroundColor: const Color(0xFF1B2432),
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         selectedIndex: _selectedIndex,
         onDestinationSelected: (int index) =>
             setState(() => _selectedIndex = index),

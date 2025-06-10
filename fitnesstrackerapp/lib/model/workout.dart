@@ -41,8 +41,12 @@ class Workout {
   Widget getCategoryIcon() {
     return switch (category) {
       Category.strength => CircleAvatar(
-        backgroundColor: Colors.white,
-        child: Icon(Icons.fitness_center, size: 30, color: getCategoryColor()),
+        backgroundColor: getCategoryColor().withAlpha(185),
+        child: Icon(
+          Icons.fitness_center,
+          size: 30,
+          // color: getCategoryColor()
+        ),
       ),
       Category.cardio => CircleAvatar(
         backgroundColor: getCategoryColor().withAlpha(185),
