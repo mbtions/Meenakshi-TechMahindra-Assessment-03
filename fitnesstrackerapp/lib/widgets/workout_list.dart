@@ -18,7 +18,6 @@ class WorkoutList extends StatelessWidget {
       itemBuilder: (context, index) => Dismissible(
         key: ValueKey(workouts[index]),
         background: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             color: Colors.red,
             borderRadius: BorderRadius.circular(10),

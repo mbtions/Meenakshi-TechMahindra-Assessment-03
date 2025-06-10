@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+  int currentPageIndex = 0;
 
   final List<Workout> registeredWorkouts = [
     Workout(
@@ -77,10 +77,57 @@ class HomeScreenState extends State<HomeScreen> {
           centerTitle: true,
           backgroundColor: Color(0xFFB76D68),
         ),
-        body: WorkoutList(
-          workouts: registeredWorkouts,
-          onRemoveWorkout: _removeWorkout,
-        ),
+        body: registeredWorkouts.isEmpty
+            ? Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 20,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          'assets/images/empty_workout.png',
+                          width: double.infinity,
+                          height: 400,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        'No workouts registered yet.',
+                        style: TextStyle(fontSize: 24, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20),
+                    Text(
+                      'Your Workouts',
+                      style: TextStyle(fontSize: 24, color: Colors.white),
+                    ),
+                    SizedBox(height: 10),
+                    Expanded(
+                      child: WorkoutList(
+                        workouts: registeredWorkouts,
+                        onRemoveWorkout: _removeWorkout,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
         backgroundColor: const Color(0xFF121420),
         floatingActionButton: FloatingActionButton(
           onPressed: _onAddNewWorkoutPress,
@@ -89,24 +136,27 @@ class HomeScreenState extends State<HomeScreen> {
         ),
       ),
       BmiScreen(),
-      SummaryScreen(),
+      SummaryScreen(workouts: registeredWorkouts),
     ];
 
     return Scaffold(
-      body: pages[_selectedIndex],
       bottomNavigationBar: NavigationBar(
+        onDestinationSelected: ((int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        }),
+        // surfaceTintColor: Colors.white,
+        // indicatorColor: const Color(0xFFB76D68),
+        selectedIndex: currentPageIndex,
         // backgroundColor: const Color(0xFF121420),
-        backgroundColor: const Color(0xFF1B2432),
-        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-        selectedIndex: _selectedIndex,
-        onDestinationSelected: (int index) =>
-            setState(() => _selectedIndex = index),
-        destinations: const [
+        destinations: const <Widget>[
           NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
           NavigationDestination(icon: Icon(Icons.monitor_weight), label: 'BMI'),
           NavigationDestination(icon: Icon(Icons.bar_chart), label: 'Summary'),
         ],
       ),
+      body: pages[currentPageIndex],
     );
   }
 }

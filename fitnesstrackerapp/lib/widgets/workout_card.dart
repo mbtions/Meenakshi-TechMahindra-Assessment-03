@@ -8,10 +8,7 @@ class WorkoutCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      color: Color(0xFF403f4c),
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      elevation: 4,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Row(
@@ -19,21 +16,32 @@ class WorkoutCard extends StatelessWidget {
             workout.getCategoryIcon(),
             const SizedBox(width: 12),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    workout.title,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text("Duration: ${workout.duration} min"),
-                ],
+              child: Text(
+                workout.title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            Text(workout.formattedDate(), style: const TextStyle(fontSize: 16)),
+            Column(
+              children: [
+                Text(
+                  workout.formattedDate(),
+                  style: const TextStyle(fontSize: 16),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "${workout.duration.toInt()} min",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
