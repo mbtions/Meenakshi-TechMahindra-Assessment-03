@@ -11,8 +11,7 @@ class SummaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final workouts = Provider.of<WorkoutProvider>(context).workouts;
-
+    // function to get total workouts per category
     String getTotalWorkoutPerCategory(Category category) {
       int total = 0;
       for (var workout in workouts) {
@@ -23,39 +22,30 @@ class SummaryScreen extends StatelessWidget {
       return total.toString();
     }
 
+    // function to get category color by name
     Color getCategoryColorByName(String categoryName) {
       switch (categoryName) {
         case "strength":
           return Colors.red;
         case "cardio":
           return Colors.blue;
-        case "yoga":
-          return Colors.green;
         case "flexibility":
+          return Colors.green;
+        case "balance":
+          return Colors.yellow;
+        case "yoga":
           return Colors.purple;
-        case "other":
-          return Colors.grey;
         default:
           return Colors.grey; // unknown category kept in other
       }
     }
 
+    // function to build the summary content
     Widget buildSummaryContent(BuildContext context, List<Workout> workouts) {
       return SingleChildScrollView(
         child: Column(
           children: [
             WorkoutPieChart(workouts: workouts),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Total Workouts: ${workouts.length}',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
             ListView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),

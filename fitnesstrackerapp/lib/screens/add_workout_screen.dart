@@ -19,6 +19,7 @@ class AddWorkoutScreenState extends State<AddWorkoutScreen> {
   Category selectedCategory = Category.other;
   DateTime selectedDate = DateTime.now();
 
+  // Function to validate inputs and return an error message if any
   String validateInputs() {
     final String errorMessage;
     if (titleController.text.isEmpty || durationController.text.isEmpty) {
@@ -32,7 +33,8 @@ class AddWorkoutScreenState extends State<AddWorkoutScreen> {
     return errorMessage;
   }
 
-  showValidationDialog(String message) {
+  // Function to show a dialog with the validation message
+  void showValidationDialog(String message) {
     // Show a dialog with the validation message
     if (message.isEmpty) return;
     showDialog(
@@ -52,61 +54,39 @@ class AddWorkoutScreenState extends State<AddWorkoutScreen> {
     );
   }
 
+  // Function to get the category icon based on the selected category
   Widget getCategoryIcon(Category category) {
     // Returns a CircleAvatar with an icon based on the category
     // and a background color that matches the category.
     return switch (category) {
       Category.strength => CircleAvatar(
         backgroundColor: Colors.red.shade600.withAlpha(185),
-        child: Icon(
-          Icons.fitness_center,
-          size: 30,
-          // color: getCategoryColor()
-        ),
+        child: Icon(Icons.fitness_center, size: 30),
       ),
       Category.cardio => CircleAvatar(
         backgroundColor: Colors.blue.shade600.withAlpha(185),
-        child: Icon(
-          Icons.directions_run,
-          size: 30,
-          //  color: getCategoryColor()
-        ),
+        child: Icon(Icons.directions_run, size: 30),
       ),
       Category.flexibility => CircleAvatar(
         backgroundColor: Colors.green.shade600.withAlpha(185),
-        child: Icon(
-          Icons.accessibility_new,
-          size: 30,
-          // color: getCategoryColor(),
-        ), // balcony
+        child: Icon(Icons.accessibility_new, size: 30),
       ),
       Category.balance => CircleAvatar(
         backgroundColor: Colors.yellow.shade600.withAlpha(175),
-        child: Icon(
-          Icons.balance,
-          size: 30,
-          //  color: getCategoryColor()
-        ),
+        child: Icon(Icons.balance, size: 30),
       ),
       Category.yoga => CircleAvatar(
         backgroundColor: Colors.purple.shade600.withAlpha(175),
-        child: Icon(
-          Icons.self_improvement,
-          size: 30,
-          // color: getCategoryColor()
-        ),
+        child: Icon(Icons.self_improvement, size: 30),
       ),
       _ => CircleAvatar(
         backgroundColor: Colors.grey.shade600.withAlpha(175),
-        child: Icon(
-          Icons.category,
-          size: 30,
-          // color: getCategoryColor()
-        ),
+        child: Icon(Icons.category, size: 30),
       ),
     };
   }
 
+  // Function to open the date picker and set the selected date
   void openDatePicker() async {
     DateTime firstDate = DateTime(2025, 1, 1);
     DateTime lastDate = DateTime(2025, 12, 31);
@@ -117,6 +97,9 @@ class AddWorkoutScreenState extends State<AddWorkoutScreen> {
       lastDate: lastDate,
     );
 
+    // If the user selects a date, update the selectedDate state
+    // If the user cancels the date picker, dateSelected will be null
+    // and does not update the selectedDate state.
     if (dateSelected != null) {
       setState(() {
         selectedDate = dateSelected;
@@ -124,6 +107,7 @@ class AddWorkoutScreenState extends State<AddWorkoutScreen> {
     }
   }
 
+  // Function to build the dropdown label with the category icon and name
   Widget buildDropdownLabel(Category category, {bool isSelected = false}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -337,12 +321,11 @@ class AddWorkoutScreenState extends State<AddWorkoutScreen> {
                 ElevatedButton(
                   onPressed: () {
                     final validationMessage = validateInputs();
+                    // If validation fails, show a dialog and return
                     if (validationMessage.isNotEmpty) {
                       showValidationDialog(validationMessage);
-                      // If validation fails, show a dialog and return
                       return;
                     }
-
                     // Create a new Workout object and pass it to the callback
                     Workout workout = Workout(
                       title: titleController.text,
